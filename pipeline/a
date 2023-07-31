@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('clone branch') {
+            steps {
+                script {
+                    // Clone the repository into the home directory
+                    dir("${env.HOME}") {
+                        git branch: 'vue', url: 'https://github.com/muhammadtouseef11222211/ci-cd.git'
+                    }
+                }
+            }
+        }
+
+        stage('docker compose') {
+            steps {
+                // Navigate to the python directory where Dockerfile and app.py are located
+                dir("${env.HOME}/pipeline") {
+                    // Build the Docker image using the specified command
+                    sh 'docker-compose up .'
+                }
+            }
+        }
+
+        
+
+    }
+}
